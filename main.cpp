@@ -56,7 +56,8 @@ int main() {
     solutes soluteconc;
     float nitrogen = 90;
     float DO = 80;
-    float seatemp = 9;
+    float sealevel = 9;
+
 
     // Check to run simulation
     int runsim = 1;
@@ -89,12 +90,17 @@ int main() {
                 cout << "Shock 2 time       : " << t_shock2 << endl;
             }
             if (shock3 != "none") {
-                cout << "Shock 3 type       : " << shock3 << endl;
+                cout << endl << "Shock 3 type       : " << shock3 << endl;
                 cout << "Shock 3 time       : " << t_shock3 << endl;
             }
 
+            cout << endl << "Abiotic conditions:" << endl;
+            cout << "Nitrogen           : " << nitrogen << endl;
+            cout << "Sea level rise     : " << sealevel << endl;
+            cout << "DO concentration   : " << DO << endl << endl;
+
         }
-        cout << "Total length of simulation :" << t_total << " months" << endl << endl;
+        cout << "Total length of simulation : " << t_total << " months" << endl << endl;
 
         cout << "__________________________________________" << endl <<endl;
 
@@ -133,7 +139,7 @@ int main() {
             // User enter new total simulation time  //
             ///////////////////////////////////////////
             case 2:
-                cout << "Enter simulation runtime in years (1-10)";
+                cout << "Enter simulation runtime in years (1-100): ";
                 cin >> t_total;
                 break;
 
@@ -142,18 +148,16 @@ int main() {
             // User enter system shock  //
             //////////////////////////////
             case 3:
-                cout << "Up to three desperate system shocks may be added." << endl;
+                cout << "DIRECTIONS: Up to three desperate system shocks may be added to the simulation. Add one at a time." << endl << endl;
 
                 // If there have been fewer than three shocks added, allow user to add another shock
                 if (numshocks < 3) {
 
-                    cout << "Enter time of system shock (between 1 and "<< t_total << "): ";
-                    cin >> t_shock1;
 
                     cout << endl << "Types of system shocks" << endl;
                     cout << "[1] Dump nutrients into ecosystem" << endl;
                     cout << "[2] Introduce toxins to ecosystem" << endl;
-                    cout << "[3] Increase sea temperature" << endl;
+                    cout << "[3] Increase sea level" << endl;
                     cout << "[4] Done added shocks" << endl << endl;
 
                     cout << "Enter choice: ";
@@ -163,9 +167,21 @@ int main() {
                     // Save the type of shock
                     if (numshocks == 0) {
 
+                        for (int check = 0; check == 0;) {
+                            cout << "Enter time of system shock (between 1 and " << t_total << "): ";
+                            cin >> t_shock1;
+
+                            if (t_shock1 > t_total) {
+                                cout << "Invalid time." << endl;
+                            }
+                            else    {
+                                check ++;
+                            }
+                        }
+
                         switch (shocktypetemp)  {
                             case 1:
-                                shock1 = "nutrients";
+                                shock1 = "Nitrogen addition";
                                 cout << "Enter concentration of nitrogen entering system (between 0 and 90: ";
                                 cin >> nitrogen;
                                 break;
@@ -183,11 +199,25 @@ int main() {
                     }
 
                     if (numshocks == 1) {
+
+                        for (int check = 0; check == 0;) {
+                            cout << "Enter time of system shock (between 1 and " << t_total << "): ";
+                            cin >> t_shock2;
+
+                            if (t_shock1 > t_total) {
+                                cout << "Invalid time." << endl;
+                            }
+                            else    {
+                                check ++;
+                            }
+                        }
+
+
                         switch (shocktypetemp)  {
                             case 1:
                                 shock2 = "nutrients";
                                 cout << "Enter concentration of nitrogen entering system (between 0 and 90: ";
-                                cin >> nitrogen;                                
+                                cin >> nitrogen;
                                 break;
                             case 2:
                                 shock2 = "toxins";
@@ -203,11 +233,24 @@ int main() {
                     }
 
                     if (numshocks == 2) {
+
+                        for (int check = 0; check == 0;) {
+                            cout << "Enter time of system shock (between 1 and " << t_total << "): ";
+                            cin >> t_shock3;
+
+                            if (t_shock1 > t_total) {
+                                cout << "Invalid time." << endl;
+                            }
+                            else    {
+                                check ++;
+                            }
+                        }
+
                         switch (shocktypetemp)  {
                             case 1:
+                                shock3 = "nutrients";
                                 cout << "Enter concentration of nitrogen entering system (between 0 and 90: ";
                                 cin >> nitrogen;
-                                shock3 = "nutrients";
                                 break;
                             case 2:
                                 shock3 = "toxins";
@@ -226,7 +269,7 @@ int main() {
 
                 // If three system shocks have already been added
                 else    {
-                    cout << "Only three shocks may be added per simulation." << endl;
+                    cout << "Only three shocks may be added per simulation. Three shocks have already been added." << endl;
                 }
                 break;
 
@@ -242,15 +285,15 @@ int main() {
                 cout << "-----------------------------------------------------------------------------------------" << endl;
 
                 for (;t <= t_total; t++) {
+
                     // Check for shock
                     if (numshocks > 0)  {
+                        // Update abiotic
                         if (t_shock1 == t || t_shock2 == t || t_shock3==t)  {
-                            soluteconc.update_concentration(nitrogen,DO,seatemp);
-                            // do something
+                            soluteconc.update_concentration(nitrogen,DO,sealevel);
                         }
                     }
-                    // Calculate derivitives for species populations
-                    
+
                 }
 
 
