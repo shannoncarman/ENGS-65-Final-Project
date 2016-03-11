@@ -160,6 +160,8 @@ int main() {
                         switch (shocktypetemp)  {
                             case 1:
                                 shock1 = "nutrients";
+                                cout << "Enter concentration of nitrogen entering system (between 0 and 90: ";
+                                cin >> nitrogen;
                                 break;
                             case 2:
                                 shock1 = "toxins";
@@ -178,6 +180,8 @@ int main() {
                         switch (shocktypetemp)  {
                             case 1:
                                 shock2 = "nutrients";
+                                cout << "Enter concentration of nitrogen entering system (between 0 and 90: ";
+                                cin >> nitrogen;                                
                                 break;
                             case 2:
                                 shock2 = "toxins";
@@ -195,6 +199,8 @@ int main() {
                     if (numshocks == 2) {
                         switch (shocktypetemp)  {
                             case 1:
+                                cout << "Enter concentration of nitrogen entering system (between 0 and 90: ";
+                                cin >> nitrogen;
                                 shock3 = "nutrients";
                                 break;
                             case 2:
@@ -232,10 +238,12 @@ int main() {
                 for (;t <= t_total; t++) {
                     // Check for shock
                     if (numshocks > 0)  {
-                        // Update abiotic
-                        if (t_shock1 != 0)  {
+                        if (t_shock1 == t || t_shock2 == t || t_shock3==t)  {
+
+                            soluteconc.update_concentration(nitrogen,DO,seatemp);
 
                             // do something
+                        }
                         }
                     }
                 }
