@@ -44,6 +44,13 @@ int main() {
     // Number of shocks
     int numshocks = 0;
 
+    /////////////////////////////////////////////
+    // object holding concentration of solutes //
+    /////////////////////////////////////////////
+    solutes soluteconc;
+    float nitrogen = 90;
+    float DO = 80;
+    float seatemp = 9;
 
     // Check to run simulation
     int runsim = 1;
