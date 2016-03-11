@@ -6,7 +6,13 @@
  */
 
 #include <iostream>
+
 #include "soluteclass.h"
+#include "otters.h"
+#include "kelp.h"
+#include "species.h"
+#include "urchins.h"
+
 using namespace std;
 
 
@@ -239,13 +245,12 @@ int main() {
                     // Check for shock
                     if (numshocks > 0)  {
                         if (t_shock1 == t || t_shock2 == t || t_shock3==t)  {
-
                             soluteconc.update_concentration(nitrogen,DO,seatemp);
-
                             // do something
                         }
-                        }
                     }
+                    // Calculate derivitives for species populations
+                    
                 }
 
 
