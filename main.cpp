@@ -58,6 +58,13 @@ int main() {
     float DO = 80;
     float sealevel = 9;
 
+    //////////////////////////
+    // Population variables //
+    //////////////////////////
+    kelp_spec   kelp(500, 5000, 0.02, 0.05); // N, K, r, Puk
+    urchin_spec urchins(10, 0.4, 0.5, 0.06);  // N, bu, Pou, du)
+    otter_spec otters(5000, 0.05, 0.1);  // initial biomass (N), bo, dott
+
 
     // Check to run simulation
     int runsim = 1;
@@ -135,18 +142,18 @@ int main() {
                 break;
 
 
-            ///////////////////////////////////////////
-            // User enter new total simulation time  //
-            ///////////////////////////////////////////
+                ///////////////////////////////////////////
+                // User enter new total simulation time  //
+                ///////////////////////////////////////////
             case 2:
                 cout << "Enter simulation runtime in years (1-100): ";
                 cin >> t_total;
                 break;
 
 
-            //////////////////////////////
-            // User enter system shock  //
-            //////////////////////////////
+                //////////////////////////////
+                // User enter system shock  //
+                //////////////////////////////
             case 3:
                 cout << "DIRECTIONS: Up to three desperate system shocks may be added to the simulation. Add one at a time." << endl << endl;
 
@@ -156,7 +163,7 @@ int main() {
 
                     cout << endl << "Types of system shocks" << endl;
                     cout << "[1] Dump nutrients into ecosystem" << endl;
-                    cout << "[2] Introduce toxins to ecosystem" << endl;
+                    cout << "[2] ??????" << endl;
                     cout << "[3] Increase sea level" << endl;
                     cout << "[4] Done added shocks" << endl << endl;
 
@@ -186,10 +193,12 @@ int main() {
                                 cin >> nitrogen;
                                 break;
                             case 2:
-                                shock1 = "toxins";
+                                shock1 = "?????????";
                                 break;
                             case 3:
-                                shock1 = "seatemp";
+                                shock1 = "sealevel";
+                                cout << "Enter rise in sealevel (between 0 and 300 cm): ";
+                                cin >> sealevel;
                                 break;
                             default:
                                 cout << "Invalid choice. Choose an option between 1 and 3." << endl;
@@ -220,10 +229,12 @@ int main() {
                                 cin >> nitrogen;
                                 break;
                             case 2:
-                                shock2 = "toxins";
+                                shock2 = "??????";
                                 break;
                             case 3:
-                                shock2 = "seatemp";
+                                shock2 = "Sealevel";
+                                cout << "Enter rise in sea level (between 0 and 300 cm): ";
+                                cin >> sealevel;
                                 break;
                             default:
                                 cout << "Invalid choice. Choose an option between 1 and 3." << endl;
@@ -253,10 +264,12 @@ int main() {
                                 cin >> nitrogen;
                                 break;
                             case 2:
-                                shock3 = "toxins";
+                                shock3 = "???????";
                                 break;
                             case 3:
-                                shock3 = "seatemp";
+                                shock3 = "Sealevel";
+                                cout << "Enter rise in sealevel (between 0 and 300 cm): ";
+                                cin >> sealevel;
                                 break;
                             default:
                                 cout << "Invalid choice. Choose an option between 1 and 3." << endl;
@@ -267,22 +280,22 @@ int main() {
                     numshocks++;
                 }
 
-                // If three system shocks have already been added
+                    // If three system shocks have already been added
                 else    {
                     cout << "Only three shocks may be added per simulation. Three shocks have already been added." << endl;
                 }
                 break;
 
 
-            /////////////////////////
-            // Run the simulation  //
-            /////////////////////////
+                /////////////////////////
+                // Run the simulation  //
+                /////////////////////////
             case 4:
                 cout << "Running simulation" << endl;
 
                 // Print header for output table
-                cout << " Year      Otter Pop       Urchin Pop      Kelp Pop        Nutrient conc       Toxin conc" << endl;
-                cout << "-----------------------------------------------------------------------------------------" << endl;
+                cout << " Year          Otter Pop           Urchin Pop          Kelp Pop            Nutrient conc           Toxin conc" << endl;
+                cout << "--------------------------------------------------------------------------------------------------------------" << endl;
 
                 for (;t <= t_total; t++) {
 
@@ -294,22 +307,35 @@ int main() {
                         }
                     }
 
+                    // Update change in populations
+                    kelp.calcDeriv(urchins);
+
+
+                    urchins.calcDeriv(kelp,otters);
+
+
+                    otters.calcPupDeriv(urchins);
+                    otters.calcAdultDeriv();
+
+                    cout << t << "              " << otters.updatePopulation() << "                 " << urchins.updatePopulation() << "                " <<  kelp.updatePopulation() << endl;
+
+
                 }
 
-
+                cout << "Simulation has finished running. The final parameters will be saved if you would like to continue with a new simulation." << endl <<endl;
                 break;
 
 
-            //////////////////////
-            // Exit simulation  //
-            //////////////////////
+                //////////////////////
+                // Exit simulation  //
+                //////////////////////
             case 5:
                 runsim = 0;
                 break;
 
-           ////////////////////////////////////
-           // User inputs invalid selection  //
-           ////////////////////////////////////
+                ////////////////////////////////////
+                // User inputs invalid selection  //
+                ////////////////////////////////////
             default:
                 cout << "Invalid selection." <<endl;
                 break;
