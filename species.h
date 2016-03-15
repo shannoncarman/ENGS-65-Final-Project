@@ -13,24 +13,20 @@
 using namespace std;
 
 
-class Species {
+class Species {        /* This is an abstract class, a generic species may not be instantiated. */
 public:
     float N;                               // population
     float dNdt;                            // time derivative of population
     
     Species(float population);             // constructor
-//    ~Species();
-    
-    float updatePopulation();              // calculate the updated population N += dN/dt*time_step
-    
     float getPopulation();                 // return population
     float getDeriv();                      // return derivative of population
-    void setPopulation(float pop);         // set population value
-//    void setDeriv(float deriv);            // set derivative of population value
-    void print();
+    
+    float updatePopulation();              // update population N = N + dN/dt * t_step
+    virtual void print() = 0;                  // all species will print out differently depending on species attributes
     
 protected:
-    const float t_step = 1;           // time step of 1 year for each population update calculation
+    const float t_step = 1;                 // time step of 1 year for each population update calculation
     
 };
 

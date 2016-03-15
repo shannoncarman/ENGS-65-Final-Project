@@ -1,7 +1,7 @@
 //
 // Created by Rachel Margolese on 3/10/16.
 //
-
+/*
 #ifndef OTTERS_SOLUTECLASS_H
 #define OTTERS_SOLUTECLASS_H
 
@@ -28,7 +28,7 @@ public:
 
 // FUNCTION DEFINITIONS
 /******************************************************************************************************************/
-
+/*
 void solutes::update_concentration(float newnutrient, float newDO, float newtoxin) {
     nutrients = newnutrient;
     DO = newDO;
@@ -50,3 +50,4 @@ float solutes::get_DO() {
 float solutes::get_tox() {
     return toxins;
 }
+*/

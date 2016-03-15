@@ -19,7 +19,11 @@ Species::Species(float pop) {
 
 // Calculate new population after 1 time step (6 months)
 float Species:: updatePopulation() {
-    return N += dNdt*t_step;
+    N += dNdt*t_step;
+    if (N<0) {
+        N = 0;
+    }
+    return N;
 }
 
 // Return species population
@@ -32,10 +36,6 @@ float Species::getDeriv() {
     return dNdt;
 }
 
-// Print out species population and derivative
-void Species::print() {
-    cout << "N: " << N << "  dNdt: " << dNdt << endl;
-}
 
 
 

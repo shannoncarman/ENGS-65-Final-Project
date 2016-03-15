@@ -2,8 +2,12 @@
 //  ENGS 65 Final Project
 
 
+#ifndef OTTERS_H
+#define OTTERS_H
+
 #include <iostream>
 #include "species.h"
+#include "shockfactors.h"
 using namespace std;
 
 
@@ -23,13 +27,13 @@ private:
             float shift(float val);     // insert new value into back of queue, return 'oldest' value from front of queue
             float sum();                // sums all elements in queue
             void print_queue();         // print all elements in queue
-        };
+    };
     
 public:
     
     // Otter population parameters
-    float bo;                               // efficiency of prey to new offspring
-    float dott;                             // natural death rate of adult otters
+    const float bo = 0.00001;               // efficiency of prey to new offspring
+    float dott;                // natural death rate of adult otters
     
     // Derivatives
     float pup_deriv;                        // time derivative of pup population (dN/dt)
@@ -45,14 +49,19 @@ public:
     float calcPupDeriv(Species &urch);
     float calcAdultDeriv();
     float updatePopulation();
+    void toxinDeath(ShockFactors &shocks);  // updates death rate of otters due to toxins
     
     
     // Constructor/destructor
-    otter_spec(float pop, float a, float b);    // initial biomass, bo, dott
+    otter_spec(float pop);    // initial biomass, bo, dott
     //~otter_spec();
     
     // Print out otter populations by age cohort
     void print();
+    
+    
 };
 
+
+#endif
 

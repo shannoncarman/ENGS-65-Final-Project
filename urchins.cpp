@@ -20,6 +20,16 @@ float urchin_spec::calcDeriv(Species &kelp, Species &otter) {
     return dNdt;
 }
 
+void urchin_spec::print() {
+    cout << "Sea urchin population\n\n";
+    cout << "N: " << N << endl;
+    cout << "Population growth parameters:\n";
+    cout << "Natural death rate, du = " << du << endl;
+    cout << "Prey to offspring efficiency, bu = : " << bu << endl;
+    cout << "Rate urchins eaten by otters, Pou: " << Pou << endl;
+
+}
+
 
 // du = natural death rate of sea urchins
 // N = population of sea urchins

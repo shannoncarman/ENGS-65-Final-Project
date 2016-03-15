@@ -7,6 +7,7 @@
 #include "kelp.h"
 #include "urchins.h"
 #include "otters.h"
+#include "shockfactors.h"
 using namespace std;
 
 
@@ -43,7 +44,7 @@ float otter_spec::AgeQueue::shift(float pup_pop) {
 // Sum all elements in queue
 float otter_spec::AgeQueue::sum() {
     
-    float juv_sum;
+    float juv_sum = 0;
     for (int i=0; i<5; i++) {
         juv_sum += age_group[i];
     };
@@ -53,7 +54,7 @@ float otter_spec::AgeQueue::sum() {
 
 // Print out juvenile populations in queue
 void otter_spec::AgeQueue::print_queue() {
-    cout << "Juveniles: ";
+//    cout << "Juveniles: ";
     for (int i=0; i<5; i++) {
         cout << age_group[i] << " ";
     }
@@ -68,8 +69,10 @@ void otter_spec::AgeQueue::print_queue() {
 
 
 // Otter class constructor
-otter_spec::otter_spec(float pop, float a, float b): Species(pop), bo(a), dott(b) {
+otter_spec::otter_spec(float pop): Species(pop) {
     
+    // initialize non-constant death rate
+    dott = 0.01;
     // initialize population derivatives to 0
     pup_deriv = 0;
     ad_deriv = 0;
@@ -117,20 +120,49 @@ float otter_spec::updatePopulation() {
     ad_N += (new_adults + (ad_deriv*t_step));       // adult population: add newest adults, changedue to natural deaths
     juv_N = juv_queue.sum();                        // juvenile population: sum of all queue elements
     N = pup_N + juv_N + ad_N;                       // total population is sum of all age cohorts
-
+    
+    
+    
+//    cout << "pup_N " << pup_N << endl;
+//    cout << "ad_N " << ad_N << endl;
+//    cout << "juv_N " << juv_N << endl;
+//    cout << "just summed N " << N << endl;
+    
+//    for (int i=0; i<5; i++) {
+//        cout << juv_queue.age_group[i] << " ";
+//    };
+//    
+//    cout << endl;
+//    cout << "juv N " << juv_N << endl;
+    if (N<0) {
+        N = 0;
+    }
+    
     return N;
 };
 
 
 // Print out otter population information
 void otter_spec::print() {
+    cout << "Sea otter population\n\n";
+    
     cout << "Total N: " << N << endl;
-    cout << "Pup N: " << pup_N << "  pup dNdt: " << pup_deriv << endl;
+    cout << "Pup N: " << pup_N << endl;
     float juv_sum = juv_queue.sum();
     cout << "Juvenile N: " << juv_sum << endl;
     cout << "Adult N: " << ad_N << "  adult dNdt: " << ad_deriv << endl;
+    
+    cout << "Growth parameters:\n";
+    cout << "Natural death rate, do = " << dott << endl;
+    cout << "Prey to offspring efficiency, bo = : " << bo << endl;
+
 }
 
-
+void otter_spec::toxinDeath(ShockFactors &shocks)  // updates death rate of otters due to toxins
+{
+    float toxinfactor = shocks.getToxinfactor;
+    dott_temp = dott;
+    dott = dot_temp*toxinfactor;
+}; 
 
 
